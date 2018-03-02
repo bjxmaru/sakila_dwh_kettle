@@ -303,8 +303,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>96</xloc>
-      <yloc>304</yloc>
+      <xloc>192</xloc>
+      <yloc>448</yloc>
     </entry>
     <entry>
       <name>set-etl-tran-begin-date</name>
@@ -339,8 +339,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>368</xloc>
-      <yloc>288</yloc>
+      <xloc>608</xloc>
+      <yloc>448</yloc>
     </entry>
     <entry>
       <name>load-dim-staff</name>
@@ -375,8 +375,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>640</xloc>
-      <yloc>288</yloc>
+      <xloc>1152</xloc>
+      <yloc>432</yloc>
     </entry>
   </entries>
   <hops>
