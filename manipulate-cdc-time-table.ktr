@@ -709,7 +709,6 @@
     <fields>
       <field>
         <name>etl_tran_current_date</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -884,15 +883,12 @@
     <fields>
       <field>
         <name>etl_tran_name_from_super</name>
-        <rename/>
       </field>
       <field>
         <name>etl_tran_current_date</name>
-        <rename/>
       </field>
       <field>
         <name>last_current_load</name>
-        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>load-dim-staff</name>
+    <name>cdc-load-dim-staff</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -548,24 +548,77 @@
   </connection>
   <order>
     <hop>
-      <from>lookup_max_last_update_date</from>
-      <to>lookup_from_last_update_load</to>
+      <from>映射 (子转换)</from>
+      <to>字段选择-insert</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>lookup_from_last_update_load</from>
-      <to>set_active_field_to_yes_or_no</to>
+      <from>映射 (子转换)</from>
+      <to>字段选择-update</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>set_active_field_to_yes_or_no</from>
-      <to>insert_update_dim_staff_with_version</to>
+      <from>字段选择-insert</from>
+      <to>合并记录</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>字段选择-update</from>
+      <to>合并记录</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>合并记录</from>
+      <to>空操作 (什么也不做)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>获取系统信息</from>
+      <to>JavaScript代码</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>JavaScript代码</from>
+      <to>映射 (子转换)</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>insert_update_dim_staff_with_version</name>
-    <type>DimensionLookup</type>
+    <name>合并记录</name>
+    <type>MergeRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <keys>
+    </keys>
+    <values>
+    </values>
+    <flag_field>row_id</flag_field>
+    <reference>字段选择-insert</reference>
+    <compare>字段选择-update</compare>
+    <compare>
+    </compare>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1248</xloc>
+      <yloc>400</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>字段选择-insert</name>
+    <type>SelectValues</type>
     <description/>
     <distribute>N</distribute>
     <custom_distribution/>
@@ -574,63 +627,18 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <schema/>
-    <table>dim_staff</table>
-    <connection>bjx-mysql-sakila_dwh</connection>
-    <commit>100</commit>
-    <update>Y</update>
     <fields>
-      <key>
-        <name>staff_id</name>
-        <lookup>staff_id</lookup>
-      </key>
-      <date>
-        <name>last_update</name>
-        <from>staff_valid_from</from>
-        <to>staff_valid_through</to>
-      </date>
       <field>
-        <name>first_name</name>
-        <lookup>staff_first_name</lookup>
-        <update>Insert</update>
+        <name>dim_name</name>
       </field>
       <field>
-        <name>last_name</name>
-        <lookup>staff_last_name</lookup>
-        <update>Insert</update>
+        <name>last_load</name>
       </field>
       <field>
-        <name>store_id</name>
-        <lookup>staff_store_id</lookup>
-        <update>Insert</update>
+        <name>current_load</name>
       </field>
-      <field>
-        <name>staff_active</name>
-        <lookup>staff_active</lookup>
-        <update>Insert</update>
-      </field>
-      <field>
-        <name>tran_begin_date_var</name>
-        <lookup>staff_last_update</lookup>
-        <update>Insert</update>
-      </field>
-      <return>
-        <name>staff_key</name>
-        <rename/>
-        <creation_method>autoinc</creation_method>
-        <use_autoinc>Y</use_autoinc>
-        <version>staff_version_number</version>
-      </return>
+      <select_unspecified>N</select_unspecified>
     </fields>
-    <sequence/>
-    <min_year>1900</min_year>
-    <max_year>2199</max_year>
-    <cache_size>5000</cache_size>
-    <preload_cache>N</preload_cache>
-    <use_start_date_alternative>N</use_start_date_alternative>
-    <start_date_alternative>none</start_date_alternative>
-    <start_date_field_name/>
-    <useBatch>N</useBatch>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -639,114 +647,151 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1312</xloc>
-      <yloc>672</yloc>
+      <xloc>944</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>lookup_from_last_update_load</name>
-    <type>TableInput</type>
+    <name>字段选择-update</name>
+    <type>SelectValues</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>bjx-mysql-sakila</connection>
-    <sql>SELECT
-  staff_id
-, first_name
-, last_name
-, address_id
-, picture
-, email
-, store_id
-, active
-, username
-, password
-, last_update
-, from_unixtime(unix_timestamp('${tran_begin_date_var}' ))   tran_begin_date_var 
-FROM staff 
-WHERE last_update > ?</sql>
-    <limit>0</limit>
-    <lookup>lookup_max_last_update_date</lookup>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>Y</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>560</xloc>
-      <yloc>912</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>lookup_max_last_update_date</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>bjx-mysql-sakila_dwh</connection>
-    <sql>SELECT	COALESCE(MAX(staff_last_update),'1970-01-01 00:00:00') max_dim_staff_last_update
-FROM	dim_staff</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>176</xloc>
-      <yloc>896</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>set_active_field_to_yes_or_no</name>
-    <type>ValueMapper</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <field_to_use>active</field_to_use>
-    <target_field>staff_active</target_field>
-    <non_match_default>NO</non_match_default>
     <fields>
       <field>
-        <source_value>1</source_value>
-        <target_value>YES</target_value>
+        <name>dim_name</name>
       </field>
       <field>
-        <source_value>Y</source_value>
-        <target_value>YES</target_value>
+        <name>last_load</name>
       </field>
       <field>
-        <source_value>N</source_value>
-        <target_value>NO</target_value>
+        <name>current_load</name>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>976</xloc>
+      <yloc>688</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>映射 (子转换)</name>
+    <type>Mapping</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <specification_method>filename</specification_method>
+    <trans_object_id/>
+    <trans_name/>
+    <filename>${Internal.Entry.Current.Directory}/manipulate-cdc-time-table.ktr</filename>
+    <directory_path/>
+    <mappings>
+      <input>
+        <mapping>
+          <input_step/>
+          <output_step/>
+          <main_path>Y</main_path>
+          <rename_on_output>Y</rename_on_output>
+          <description/>
+          <connector>
+            <parent>tran_name</parent>
+            <child>etl_tran_name_from_super</child>
+          </connector>
+        </mapping>
+      </input>
+      <output>
+        <mapping>
+          <input_step>insert-output</input_step>
+          <output_step>字段选择-insert</output_step>
+          <main_path>N</main_path>
+          <rename_on_output>N</rename_on_output>
+          <description/>
+        </mapping>
+        <mapping>
+          <input_step>update-output</input_step>
+          <output_step>字段选择-update</output_step>
+          <main_path>N</main_path>
+          <rename_on_output>N</rename_on_output>
+          <description/>
+        </mapping>
+      </output>
+      <parameters>
+        <inherit_all_vars>Y</inherit_all_vars>
+      </parameters>
+    </mappings>
+    <allow_multiple_input>Y</allow_multiple_input>
+    <allow_multiple_output>Y</allow_multiple_output>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>480</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>空操作 (什么也不做)</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1648</xloc>
+      <yloc>480</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>获取系统信息</name>
+    <type>SystemInfo</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>tran_name_cdc</name>
+        <type>transformation name</type>
       </field>
     </fields>
     <cluster_schema/>
@@ -757,8 +802,52 @@ FROM	dim_staff</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>848</xloc>
-      <yloc>464</yloc>
+      <xloc>112</xloc>
+      <yloc>480</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>JavaScript代码</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>var tran_name = tran_name_cdc.substring(4) ; 
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>tran_name</name>
+        <rename>tran_name</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>288</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
