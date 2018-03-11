@@ -303,8 +303,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>160</xloc>
-      <yloc>144</yloc>
+      <xloc>80</xloc>
+      <yloc>192</yloc>
     </entry>
     <entry>
       <name>set-etl-tran-begin-date</name>
@@ -379,12 +379,12 @@
       <yloc>384</yloc>
     </entry>
     <entry>
-      <name>cdc-load-dim-staff</name>
+      <name>cdc-load-dim</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>J:\kettle_git\sakila_dwh_kettle\dim_trans\load-dim-staff-cdc-time.ktr</filename>
+      <filename>J:\kettle_git\sakila_dwh_kettle\common_transaction\manipulate-cdc-time-table.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -411,8 +411,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>720</xloc>
-      <yloc>384</yloc>
+      <xloc>752</xloc>
+      <yloc>368</yloc>
     </entry>
     <entry>
       <name>成功</name>
@@ -460,6 +460,52 @@
       <xloc>1056</xloc>
       <yloc>384</yloc>
     </entry>
+    <entry>
+      <name>cdc-load-dim</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>J:\kettle_git\sakila_dwh_kettle\common_transaction\manipulate-cdc-time-table.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <run_configuration>Pentaho local</run_configuration>
+      <parameters>
+        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>1</nr>
+      <xloc>1600</xloc>
+      <yloc>400</yloc>
+    </entry>
+    <entry>
+      <name>成功 2</name>
+      <description/>
+      <type>SUCCESS</type>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1232</xloc>
+      <yloc>400</yloc>
+    </entry>
   </entries>
   <hops>
     <hop>
@@ -491,7 +537,7 @@
     </hop>
     <hop>
       <from>成功</from>
-      <to>cdc-load-dim-staff</to>
+      <to>cdc-load-dim</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -499,10 +545,28 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>cdc-load-dim-staff</from>
+      <from>cdc-load-dim</from>
       <to>load-dim-film</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>load-dim-film</from>
+      <to>成功 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>成功 2</from>
+      <to>cdc-load-dim</to>
+      <from_nr>0</from_nr>
+      <to_nr>1</to_nr>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>

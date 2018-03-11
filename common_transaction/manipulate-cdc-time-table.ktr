@@ -498,17 +498,7 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>映射输入规范</from>
-      <to>字段选择 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
       <from>字段选择</from>
-      <to>记录关联 (笛卡尔输出)</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>字段选择 2</from>
       <to>记录关联 (笛卡尔输出)</to>
       <enabled>Y</enabled>
     </hop>
@@ -553,23 +543,18 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>更新</from>
-      <to>字段选择 3</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>字段选择 3</from>
-      <to>update-output</to>
+      <from>获取变量 2</from>
+      <to>记录关联 (笛卡尔输出)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>表输出</from>
-      <to>字段选择 4</to>
+      <to>空操作 (什么也不做)</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>字段选择 4</from>
-      <to>insert-output</to>
+      <from>更新</from>
+      <to>空操作 (什么也不做)</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -615,54 +600,6 @@
     </GUI>
   </step>
   <step>
-    <name>insert-output</name>
-    <type>MappingOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1984</xloc>
-      <yloc>416</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>update-output</name>
-    <type>MappingOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1984</xloc>
-      <yloc>656</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>值映射</name>
     <type>ValueMapper</type>
     <description/>
@@ -690,8 +627,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>688</xloc>
-      <yloc>720</yloc>
+      <xloc>704</xloc>
+      <yloc>416</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -720,116 +657,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>288</xloc>
-      <yloc>144</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>字段选择 2</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>etl_tran_name_from_super</name>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>224</xloc>
-      <yloc>656</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>字段选择 3</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>etl_tran_name_from_super</name>
-        <rename>dim_name</rename>
-      </field>
-      <field>
-        <name>last_current_load</name>
-        <rename>last_load</rename>
-      </field>
-      <field>
-        <name>etl_tran_current_date</name>
-        <rename>current_load</rename>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1632</xloc>
-      <yloc>672</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>字段选择 4</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>etl_tran_name_from_super</name>
-        <rename>dim_name</rename>
-      </field>
-      <field>
-        <name>last_current_load</name>
-        <rename>last_load</rename>
-      </field>
-      <field>
-        <name>etl_tran_current_date</name>
-        <rename>current_load</rename>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>1632</xloc>
-      <yloc>240</yloc>
+      <xloc>208</xloc>
+      <yloc>368</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -846,13 +675,16 @@
     </partitioning>
     <fields>
       <field>
-        <name>etl_tran_name_from_super</name>
+        <name>tran_name</name>
+        <rename/>
       </field>
       <field>
         <name>etl_tran_current_date</name>
+        <rename/>
       </field>
       <field>
         <name>last_current_load</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -882,13 +714,16 @@
     </partitioning>
     <fields>
       <field>
-        <name>etl_tran_name_from_super</name>
+        <name>tran_name</name>
+        <rename/>
       </field>
       <field>
         <name>etl_tran_current_date</name>
+        <rename/>
       </field>
       <field>
         <name>last_current_load</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -900,7 +735,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1104</xloc>
+      <xloc>1088</xloc>
       <yloc>656</yloc>
       <draw>Y</draw>
     </GUI>
@@ -933,7 +768,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1392</xloc>
+      <xloc>1280</xloc>
       <yloc>128</yloc>
       <draw>Y</draw>
     </GUI>
@@ -960,7 +795,7 @@
       <fail_on_multiple>N</fail_on_multiple>
       <eat_row_on_failure>N</eat_row_on_failure>
       <key>
-        <name>etl_tran_name_from_super</name>
+        <name>tran_name</name>
         <field>dim_name</field>
         <condition>=</condition>
         <name2/>
@@ -980,41 +815,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>608</xloc>
-      <yloc>256</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>映射输入规范</name>
-    <type>MappingInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>etl_tran_name_from_super</name>
-        <type>String</type>
-        <length>128</length>
-        <precision>-1</precision>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>80</xloc>
-      <yloc>800</yloc>
+      <xloc>560</xloc>
+      <yloc>416</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1039,7 +841,7 @@
       <schema/>
       <table>cdc_time</table>
       <key>
-        <name>etl_tran_name_from_super</name>
+        <name>tran_name</name>
         <field>dim_name</field>
         <condition>=</condition>
         <name2/>
@@ -1061,8 +863,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1280</xloc>
-      <yloc>912</yloc>
+      <xloc>1424</xloc>
+      <yloc>640</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1099,8 +901,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>240</yloc>
+      <xloc>64</xloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1135,7 +937,7 @@
     <fields>
       <field>
         <column_name>dim_name</column_name>
-        <stream_name>etl_tran_name_from_super</stream_name>
+        <stream_name>tran_name</stream_name>
       </field>
       <field>
         <column_name>last_load</column_name>
@@ -1154,8 +956,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1456</xloc>
-      <yloc>448</yloc>
+      <xloc>1488</xloc>
+      <yloc>128</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1192,6 +994,68 @@
     <GUI>
       <xloc>384</xloc>
       <yloc>416</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>获取变量 2</name>
+    <type>GetVariable</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>tran_name</name>
+        <variable>${tran_name_last_var}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>176</xloc>
+      <yloc>560</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>空操作 (什么也不做)</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1616</xloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

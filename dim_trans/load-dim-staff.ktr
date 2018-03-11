@@ -562,6 +562,11 @@
       <to>insert_update_dim_staff_with_version</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>获取系统信息</from>
+      <to>设置变量</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
     <name>insert_update_dim_staff_with_version</name>
@@ -759,6 +764,69 @@ FROM	dim_staff</sql>
     <GUI>
       <xloc>848</xloc>
       <yloc>464</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>获取系统信息</name>
+    <type>SystemInfo</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>tran_name_for_next</name>
+        <type>transformation name</type>
+      </field>
+    </fields>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>880</xloc>
+      <yloc>960</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>设置变量</name>
+    <type>SetVariable</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <field_name>tran_name_for_next</field_name>
+        <variable_name>tran_name_last_var</variable_name>
+        <variable_type>ROOT_JOB</variable_type>
+        <default_value/>
+      </field>
+    </fields>
+    <use_formatting>Y</use_formatting>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1024</xloc>
+      <yloc>960</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
